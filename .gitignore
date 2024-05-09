@@ -1,0 +1,8 @@
+.bsp/
+.history
+.idea/
+*.iml
+project/project
+project/target
+target/
+
