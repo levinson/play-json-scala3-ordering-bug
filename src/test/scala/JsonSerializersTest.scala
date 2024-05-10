@@ -2,12 +2,12 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.libs.json._
 
-case class Value(value: String) extends AnyVal
+case class Region(value: String) extends AnyVal
 
-case class Model(key: Value, metadata: Option[String], region: Value)
+case class Model(metadata: Option[String], region: Region)
 
 object JsonSerializers {
-  implicit val regionFmt: Format[Value] = Json.valueFormat[Value]
+  implicit val regionFmt: Format[Region] = Json.valueFormat[Region]
   implicit val modelFmt: Format[Model] = Json.format[Model]
 }
 
@@ -17,10 +17,10 @@ class JsonSerializersTest extends AnyWordSpec with Matchers {
 
   "JsonSerializers" should {
     "preserve ordering" in {
-      val model = Model(Value("foo"), Some("metadata"), Value("region"))
+      val model = Model(Some("metadata"), Region("region"))
       val serialized = Json.stringify(Json.toJson(model))
       println("serialized is " + serialized)
-      serialized shouldBe """{"key":"foo","metadata":"metadata","region":"region"}"""
+      serialized shouldBe """{"metadata":"metadata","region":"region"}"""
     }
   }
 }
